@@ -158,7 +158,13 @@ def list_incidents(db: Session = Depends(get_db)) -> list[dict]:
 def list_tickets(db: Session = Depends(get_db)) -> list[dict]:
     tickets = db.scalars(select(Ticket).order_by(Ticket.created_at.desc())).all()
     return [
-        {"id": t.id, "incident_id": t.incident_id, "status": t.status.value, "assignee": t.assignee}
+        {
+            "id": t.id,
+            "incident_id": t.incident_id,
+            "status": t.status.value,
+            "assignee": t.assignee,
+            "after_url": f"/uploads/{Path(t.after_path).name}" if t.after_path else None,
+        }
         for t in tickets
     ]
 
@@ -172,3 +178,36 @@ def update_ticket(ticket_id: str, body: TicketUpdate, db: Session = Depends(get_
     ticket.assignee = body.assignee
     db.commit()
     return {"id": ticket.id, "status": ticket.status.value, "assignee": ticket.assignee}
+
+
+@app.post("/api/tickets/{ticket_id}/evidence")
+def upload_after_evidence(
+    ticket_id: str,
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+) -> dict:
+    ticket = db.get(Ticket, ticket_id)
+    if not ticket:
+        raise HTTPException(404, "Ticket not found")
+    allowed = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}
+    if image.content_type not in allowed:
+        raise HTTPException(415, "Only JPEG, PNG and WebP images are accepted")
+    after = upload_dir / f"{ticket.id}-after{allowed[image.content_type]}"
+    with after.open("wb") as target:
+        shutil.copyfileobj(image.file, target)
+    if after.stat().st_size > settings.max_upload_mb * 1024 * 1024:
+        after.unlink(missing_ok=True)
+        raise HTTPException(413, "Image is too large")
+    try:
+        analyze_cv(after, upload_dir / f"{ticket.id}-after-evidence.jpg")
+    except ValueError as exc:
+        after.unlink(missing_ok=True)
+        raise HTTPException(422, str(exc)) from exc
+    ticket.after_path = str(after)
+    ticket.status = TicketStatus.completed
+    ticket.incident.audit_log = [
+        *ticket.incident.audit_log,
+        {"event": "AFTER_EVIDENCE_UPLOADED", "source": ticket.assignee or "volunteer"},
+    ]
+    db.commit()
+    return {"id": ticket.id, "status": ticket.status.value, "after_url": f"/uploads/{after.name}"}
