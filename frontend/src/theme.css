@@ -1,7 +1,7 @@
 /* Deep Caspian visual system: larger type, softer geometry, no green cast. */
 :root { font-size: 17px; color: #f4f7ff; background: #070b16; }
 body { background: radial-gradient(circle at 68% 0, #142b51 0, transparent 38%), radial-gradient(circle at 12% 88%, #17213d 0, transparent 32%), #070b16; color: #f4f7ff; }
-header { height: 78px; padding-inline: clamp(22px, 4vw, 76px); border-color: #b8cbff20; background: #080d1bf2; box-shadow: 0 1px #8edfff16; }
+header { height: 78px; padding-inline: clamp(22px, 4vw, 76px); border-color: #b8cbff20; background: #080d1bf2; box-shadow: 0 1px #8edfff16; backdrop-filter: none; }
 header .mark { width: 42px; height: 42px; border: 0; background: linear-gradient(145deg, #6cc9ff, #7181ff); color: #07101f; font-weight: 850; box-shadow: 0 8px 28px #5cb9ff40; }
 header div:nth-child(2) { font-size: 13px; letter-spacing: .1em; }
 header small { font-size: 9px; color: #8fa6ca; }
