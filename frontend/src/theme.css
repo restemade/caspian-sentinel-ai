@@ -1,0 +1,60 @@
+/* Deep Caspian visual system: larger type, softer geometry, no green cast. */
+:root { font-size: 17px; color: #f4f7ff; background: #070b16; }
+body { background: radial-gradient(circle at 68% 0, #142b51 0, transparent 38%), radial-gradient(circle at 12% 88%, #17213d 0, transparent 32%), #070b16; color: #f4f7ff; }
+header { height: 78px; padding-inline: clamp(22px, 4vw, 76px); border-color: #b8cbff20; background: #080d1be8; box-shadow: 0 12px 40px #02040b66; }
+header .mark { width: 42px; height: 42px; border: 0; background: linear-gradient(145deg, #6cc9ff, #7181ff); color: #07101f; font-weight: 850; box-shadow: 0 8px 28px #5cb9ff40; }
+header div:nth-child(2) { font-size: 13px; letter-spacing: .1em; }
+header small { font-size: 9px; color: #8fa6ca; }
+header nav { padding: 5px; border: 1px solid #b9caff1c; background: #10182b; border-radius: 999px; }
+header nav button { font-size: 13px; color: #aab8d3; padding: 9px 16px; border-radius: 999px; transition: .2s ease; }
+header nav button.active { border-color: transparent; color: #06101e; background: linear-gradient(135deg, #7cd7ff, #8b9cff); box-shadow: 0 8px 22px #5abfff35; }
+header > span { border-color: #8099c835; color: #aebedf; border-radius: 999px; padding: 8px 12px; }
+.hero { min-height: calc(100dvh - 78px); padding-block: clamp(48px, 6vw, 96px); }
+.eyebrow { font-size: 12px; color: #82cfff; }
+.hero h1 { font-size: clamp(54px, 6.4vw, 104px); letter-spacing: -.06em; }
+.hero h1 em { background: linear-gradient(90deg, #72d2ff, #8b9cff); background-clip: text; color: transparent; }
+.hero > div > p:last-child { color: #b8c5dc; font-size: clamp(18px, 1.5vw, 24px); line-height: 1.6; }
+.hero form { padding: 28px; border: 1px solid #a9c6ff24; background: #0d1426d9; border-radius: 28px; box-shadow: 0 32px 90px #02040b99; }
+.capture { min-height: 250px; border-color: #70cfff6b; background: linear-gradient(145deg, #111d35, #12182b); border-radius: 20px; color: #90d9ff; font-size: 18px; }
+.coords { font-size: 13px; color: #9eb0ce; }
+.coords button, .actions button { color: #79cfff; }
+.analyze, .primary { border-radius: 14px; background: linear-gradient(135deg, #76d3ff, #8998ff); color: #07101f; font-size: 15px; box-shadow: 0 10px 28px #4e9cff30; transition: transform .2s ease, box-shadow .2s ease; }
+.analyze:hover, .primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px #4e9cff48; }
+.feed, .workspace { background: #090e1c; padding-top: 78px; }
+.section-title h2, .workspace-head h1, .workspace-head h2 { font-size: clamp(40px, 5vw, 76px); letter-spacing: -.045em; }
+.workspace-head p { color: #aebbd2; }
+.empty { padding: 46px; border-color: #a9c5ff1f; background: #0d1425; border-radius: 22px; color: #aab7cd; }
+article { border-color: #a9c5ff1f; background: linear-gradient(145deg, #10182b, #0c1221); border-radius: 24px; padding: 20px; box-shadow: 0 22px 60px #02040b55; }
+.images { gap: 10px; }
+.images img { height: 240px; border-radius: 15px; background: #070c17; }
+.meta span { border: 0; background: #18223a; border-radius: 999px; color: #9ed8ff; font-size: 11px; padding: 7px 10px; }
+.actions { border-color: #a9c5ff1c; }
+.actions button:last-child { background: linear-gradient(135deg, #76d3ff, #8998ff); color: #07101f; border-radius: 12px; }
+.map { border-color: #a9c5ff22; border-radius: 24px; overflow: hidden; background: #0c1425; box-shadow: 0 26px 70px #02040b66; }
+.ticket p { color: #aebbd2; }
+.ticket .after { border-color: #a9c5ff1c; }
+.small-upload { color: #84d4ff; border-color: #73cfff66; border-radius: 14px; }
+.verified { color: #84d4ff; }
+.error { color: #ff9588; }
+
+@media (max-width: 860px) {
+  :root { font-size: 16px; }
+  header { height: 70px; }
+  .hero { min-height: calc(100dvh - 70px); }
+  .hero h1 { font-size: clamp(46px, 11vw, 72px); }
+  .hero form { border-radius: 22px; }
+  .capture { min-height: 190px; }
+  .section-title h2, .workspace-head h2 { font-size: 42px; }
+}
+
+@media (max-width: 620px) {
+  header nav { background: transparent; border: 0; padding: 0; }
+  header nav button { padding: 8px 10px; }
+  .hero { padding-top: 48px; }
+  .hero h1 { font-size: 44px; }
+  .hero > div > p:last-child { font-size: 17px; }
+  .hero form { padding: 16px; }
+  .capture { font-size: 16px; }
+  .feed, .workspace { padding-top: 52px; }
+  article { border-radius: 20px; }
+}
