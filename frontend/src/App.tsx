@@ -1,7 +1,8 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { CaspianLogo, InstallApp, OceanCanvas } from "./Experience";
+import { CaspianLogo, InstallApp } from "./Experience";
+import { Explore } from "./Explore";
 
 type Observation = {
   id: string; created_at: string; latitude: number; longitude: number; status: string;
@@ -57,47 +58,6 @@ function TicketCard({ ticket, reload }: { ticket: Ticket; reload: () => Promise<
   </article>;
 }
 
-function Overview({ incidents, tickets, observations, openCapture }: {
-  incidents: Incident[]; tickets: Ticket[]; observations: Observation[]; openCapture: () => void;
-}) {
-  const active = tickets.filter((ticket) => ticket.status !== "VERIFIED").length;
-  const verified = tickets.filter((ticket) => ticket.status === "VERIFIED").length;
-  const confidence = observations.length
-    ? Math.round(observations.reduce((sum, item) => sum + item.confidence, 0) / observations.length * 100)
-    : 0;
-  return <section className="command">
-    <OceanCanvas/>
-    <div className="command-hero">
-      <div className="command-copy">
-        <p className="eyebrow">CASPIAN ENVIRONMENTAL OPERATING SYSTEM</p>
-        <h1>Море говорит.<br/><em>Мы превращаем сигнал в действие.</em></h1>
-        <p>Единый контур наблюдения, AI-анализа и координации очистки побережья Каспия.</p>
-        <div className="command-actions"><button className="primary" onClick={openCapture}>Зафиксировать загрязнение</button><span><i/> Система наблюдения активна</span></div>
-      </div>
-      <div className="response-stage" aria-label="Caspian Response Loop">
-        <div className="loop-title"><span>CASPIAN RESPONSE LOOP</span><strong>Доказуемый результат,<br/>а не просто AI-ответ</strong></div>
-        <div className="loop-ring"><i/><i/><i/></div>
-        <div className="loop-step step-detect"><b>01</b><span>ОБНАРУЖИТЬ<small>камера + GPS</small></span></div>
-        <div className="loop-step step-understand"><b>02</b><span>ПОНЯТЬ<small>Gemini + CV evidence</small></span></div>
-        <div className="loop-step step-act"><b>03</b><span>ИСПРАВИТЬ<small>задача исполнителю</small></span></div>
-        <div className="loop-step step-prove"><b>04</b><span>ДОКАЗАТЬ<small>фото до / после</small></span></div>
-        <div className="loop-core"><strong>{verified}</strong><span>подтверждённых<br/>результатов</span></div>
-      </div>
-    </div>
-    <div className="signal-strip">
-      <div><span>НАБЛЮДЕНИЯ</span><strong>{observations.length}</strong><small>фото с геопозицией</small></div>
-      <div><span>AI CONFIDENCE</span><strong>{confidence || "—"}{confidence ? "%" : ""}</strong><small>средняя уверенность</small></div>
-      <div><span>АКТИВНЫЕ ЗАДАЧИ</span><strong>{active}</strong><small>ожидают реакции</small></div>
-      <div><span>ЗАКРЫТО</span><strong>{verified}</strong><small>подтверждено фото</small></div>
-    </div>
-    <div className="capability-grid">
-      <article className="capability featured"><span>01 / VISION</span><h2>AI видит то, что требует внимания</h2><p>Gemini понимает сцену, OpenCV сохраняет проверяемую визуальную разметку, оператор принимает решение.</p><button onClick={openCapture}>Открыть AI-наблюдение →</button></article>
-      <article className="capability"><span>02 / RESPONSE</span><h3>От сигнала до исполнителя</h3><p>Подтверждённый инцидент появляется на карте и превращается в задачу с фотографией результата.</p><div className="mini-flow"><i>Фото</i><b>→</b><i>AI</i><b>→</b><i>Задача</i></div></article>
-      <article className="capability"><span>03 / DIGITAL TWIN</span><h3>Плавучая станция</h3><p>Следующий контур объединит телеметрию воды, энергетику и прогнозирование в цифровом двойнике.</p><div className="station-mark"><i/><i/><i/><strong>CS–01</strong></div></article>
-    </div>
-  </section>;
-}
-
 export function App() {
   const [view, setView] = useState<View>("overview");
   const [items, setItems] = useState<Observation[]>([]);
@@ -125,7 +85,7 @@ export function App() {
   async function reanalyze(id: string) { setBusy(true); setError(""); const response = await fetch(`/api/observations/${id}/reanalyze`, { method: "POST" }); if (!response.ok) setError("Gemini временно не ответил. Попробуйте ещё раз."); await load(); setBusy(false); }
   return <main>
     <header><CaspianLogo/><div><strong>CASPIAN SENTINEL</strong><small>AI RESPONSE NETWORK</small></div><nav>{(["overview", "capture", "map", "tasks"] as View[]).map((name) => <button className={view === name ? "active" : ""} onClick={() => setView(name)} key={name}>{name === "overview" ? "Главная" : name === "capture" ? "Сообщить" : name === "map" ? "Карта" : "Мои задачи"}</button>)}</nav><InstallApp/></header>
-    {view === "overview" && <Overview incidents={incidents} tickets={tickets} observations={items} openCapture={() => setView("capture")}/>}
+    {view === "overview" && <Explore signals={items} tasks={tickets} onReport={() => setView("capture")} onOpenTasks={() => setView("tasks")}/>}
     {view === "capture" && <><section className="hero"><div><p className="eyebrow">COMMUNITY ENVIRONMENTAL INTELLIGENCE</p><h1>Снимок становится<br/><em>доказуемым действием.</em></h1><p>Камера и GPS фиксируют событие. Gemini объясняет сцену, OpenCV показывает найденные области, а решение всегда подтверждает человек.</p></div><form onSubmit={submit}><label className="capture">{file ? file.name : "Открыть камеру или выбрать фото"}<input type="file" accept="image/*" capture="environment" onChange={(e) => setFile(e.target.files?.[0] ?? null)} /></label><div className="coords"><span>{coords.latitude.toFixed(5)}, {coords.longitude.toFixed(5)}</span><button type="button" onClick={locate}>Определить GPS</button></div><button className="analyze" disabled={!file || busy}>{busy ? "Gemini + OpenCV анализируют…" : "Создать AI-наблюдение"}</button>{error && <p className="error">{error}</p>}</form></section><section className="feed"><div className="section-title"><p className="eyebrow">ПРОВЕРЯЕМЫЕ AI-ДОКАЗАТЕЛЬСТВА</p><h2>Наблюдения</h2></div>{items.length === 0 && <div className="empty">Сделайте первое наблюдение с камеры телефона.</div>}<div className="grid">{items.map((item) => <article className="observation-card" key={item.id}><div className="images"><figure><img src={item.original_url} alt="Исходное наблюдение"/><figcaption>ОРИГИНАЛ</figcaption></figure>{item.evidence_url && <figure><img src={item.evidence_url} alt="CV evidence overlay"/><figcaption>CV DEBUG · {item.cv_metrics.region_count ?? 0} ОБЛАСТЕЙ</figcaption></figure>}</div><div className="meta"><span>{item.status}</span><span>{item.confidence ? `${Math.round(item.confidence * 100)}% AI` : "AI НЕ ВЫПОЛНЕН"}</span><span>{item.severity}</span></div><h3>{item.category === "unknown" ? "Требуется AI-анализ" : item.category.replaceAll("_", " ")}</h3><p>{item.summary}</p>{item.confidence === 0 && <button className="reanalyze" disabled={busy} onClick={() => reanalyze(item.id)}>↻ Повторить анализ Gemini</button>}{item.status === "REVIEW" && item.confidence > 0 && <div className="actions"><button onClick={() => review(item.id, false)}>Не является инцидентом</button><button onClick={() => review(item.id, true)}>Подтвердить и создать задачу</button></div>}</article>)}</div></section></>}
     {view === "map" && <section className="workspace"><div className="workspace-head"><div><p className="eyebrow">GEO RESPONSE</p><h2>Карта инцидентов</h2></div><strong>{incidents.length} событий</strong></div><IncidentMap incidents={incidents}/></section>}
     {view === "tasks" && <section className="workspace"><div className="workspace-head"><div><p className="eyebrow">VOLUNTEER OPERATIONS</p><h2>Задачи по очистке</h2></div><strong>{tickets.filter((t) => t.status !== "VERIFIED").length} активных</strong></div><div className="grid">{tickets.map((ticket) => <TicketCard key={ticket.id} ticket={ticket} reload={load}/>)}</div></section>}

@@ -1,4 +1,4 @@
-const CACHE = "caspian-sentinel-shell-v2";
+const CACHE = "caspian-sentinel-shell-v3";
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"]))));
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", (event) => {
