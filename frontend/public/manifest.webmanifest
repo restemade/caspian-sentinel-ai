@@ -1,0 +1,10 @@
+{
+  "name": "Caspian Sentinel AI",
+  "short_name": "Sentinel",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071614",
+  "theme_color": "#071614",
+  "icons": []
+}
+
