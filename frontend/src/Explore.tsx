@@ -38,6 +38,12 @@ export function Explore({ signals, tasks, onReport, onOpenTasks }: {
   }, []);
 
   useEffect(() => {
+    if (signals.length && !selected) setSelected(signals[0]);
+    // The initial API response should open one real signal; closing it stays respected.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signals]);
+
+  useEffect(() => {
     if (!mapElement.current) return;
     const map = L.map(mapElement.current, { zoomControl: false, attributionControl: false, minZoom: 4 }).setView([42.4, 50.7], 6);
     L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(map);
