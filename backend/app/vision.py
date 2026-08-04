@@ -59,11 +59,15 @@ async def analyze_gemini(source: Path, settings: Settings) -> VisionAssessment:
         "Do not claim petroleum is confirmed from an image; use oil_like_surface_anomaly. "
         "Use category plastic_waste, oil_like_surface_anomaly, large_debris, dead_fish, "
         "wildlife, clean, or unknown. Include confidence 0..1, severity low/medium/high/critical/unknown, "
-        "summary, objects, recommendation, and requires_human_review=true unless clearly clean."
+        "summary, objects, recommendation, and requires_human_review=true unless clearly clean. "
+        "Write summary, object names and recommendation in Russian."
     )
     payload = {
         "contents": [{"parts": [{"text": prompt}, {"inline_data": {"mime_type": mime, "data": encoded}}]}],
-        "generationConfig": {"responseMimeType": "application/json"},
+        "generationConfig": {
+            "responseMimeType": "application/json",
+            "responseJsonSchema": VisionAssessment.model_json_schema(),
+        },
     }
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{settings.gemini_model}:generateContent"
     try:

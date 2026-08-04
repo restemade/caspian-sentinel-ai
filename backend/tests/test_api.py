@@ -35,6 +35,10 @@ def test_observation_to_incident_workflow() -> None:
     assert observation["evidence_url"]
     assert observation["cv_metrics"]["region_count"] >= 1
 
+    reanalysis = client.post(f"/api/observations/{observation['id']}/reanalyze")
+    assert reanalysis.status_code == 200
+    assert reanalysis.json()["category"]
+
     review = client.post(
         f"/api/observations/{observation['id']}/review",
         json={"approved": True, "recommendation": "Inspect and remove the reported waste."},

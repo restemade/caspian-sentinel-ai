@@ -3,7 +3,10 @@
   "short_name": "Sentinel",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#071614",
-  "theme_color": "#071614",
+  "description": "AI-наблюдение и координация очистки Каспийского моря",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "background_color": "#070b16",
+  "theme_color": "#080d1b",
   "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
 }

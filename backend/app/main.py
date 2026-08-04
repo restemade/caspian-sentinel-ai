@@ -133,6 +133,30 @@ def review_observation(observation_id: str, body: ReviewRequest, db: Session = D
     return {"status": "APPROVED", "incident_id": incident.id, "ticket_id": ticket.id}
 
 
+@app.post("/api/observations/{observation_id}/reanalyze", response_model=ObservationRead)
+async def reanalyze_observation(
+    observation_id: str, db: Session = Depends(get_db)
+) -> ObservationRead:
+    item = db.get(Observation, observation_id)
+    if not item:
+        raise HTTPException(404, "Observation not found")
+    try:
+        assessment = await analyze_gemini(Path(item.original_path), settings)
+    except VisionServiceError as exc:
+        raise HTTPException(503, "AI service is temporarily unavailable") from exc
+    item.category = assessment.category
+    item.confidence = assessment.confidence
+    item.severity = assessment.severity
+    item.summary = assessment.summary
+    item.objects = assessment.objects
+    item.ai_payload = assessment.model_dump()
+    if item.incident:
+        item.incident.title = f"{assessment.category.replace('_', ' ').title()} observation"
+        item.incident.recommendation = assessment.recommendation
+    db.commit()
+    return observation_read(item)
+
+
 @app.get("/api/incidents")
 def list_incidents(db: Session = Depends(get_db)) -> list[dict]:
     incidents = db.scalars(select(Incident).order_by(Incident.created_at.desc())).all()
@@ -164,6 +188,13 @@ def list_tickets(db: Session = Depends(get_db)) -> list[dict]:
             "status": t.status.value,
             "assignee": t.assignee,
             "after_url": f"/uploads/{Path(t.after_path).name}" if t.after_path else None,
+            "title": t.incident.title,
+            "category": t.incident.observation.category,
+            "severity": t.incident.observation.severity,
+            "latitude": t.incident.observation.latitude,
+            "longitude": t.incident.observation.longitude,
+            "before_url": f"/uploads/{Path(t.incident.observation.original_path).name}",
+            "recommendation": t.incident.recommendation,
         }
         for t in tickets
     ]
