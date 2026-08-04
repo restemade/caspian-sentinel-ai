@@ -72,7 +72,7 @@ export function Explore({ signals, tasks, onReport, onOpenTasks }: {
 
     <aside className="mission-panel">
       <p className="eyebrow">CASPIAN RESPONSE NETWORK</p>
-      <h1>Каспий.<br/><em>Видеть. Действовать.</em></h1>
+      <h1>Обнаружили.<br/><em>Проверили.<br/>Очистили.</em></h1>
       <p>Живая карта загрязнений, где снимок с телефона становится проверенным AI-наблюдением и задачей на очистку.</p>
       <button className="report-action" onClick={onReport}><span>＋</span><b>Сообщить о загрязнении</b><small>камера · GPS · Gemini Vision</small></button>
       <div className="real-data"><span>Только реальные данные MVP</span><strong>{signals.length} наблюдений · {active} активных задач</strong></div>
