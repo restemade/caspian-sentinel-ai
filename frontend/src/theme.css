@@ -58,3 +58,37 @@ article { border-color: #a9c5ff1f; background: linear-gradient(145deg, #10182b, 
   .feed, .workspace { padding-top: 52px; }
   article { border-radius: 20px; }
 }
+
+.command { min-height: calc(100dvh - 78px); padding: 42px clamp(22px, 5vw, 96px) 80px; overflow: hidden; background: radial-gradient(circle at 77% 27%, #1d39705c, transparent 32%); }
+.command-hero { min-height: 610px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(480px, .82fr); gap: clamp(40px, 6vw, 110px); align-items: center; }
+.command-copy { position: relative; z-index: 2; }
+.command-copy h1 { max-width: 900px; margin: 20px 0 28px; font-size: clamp(58px, 6.2vw, 106px); line-height: .95; letter-spacing: -.067em; }
+.command-copy h1 em { font-style: normal; background: linear-gradient(90deg, #7dd8ff, #9a9fff 65%, #ff9b91); background-clip: text; color: transparent; }
+.command-copy > p:not(.eyebrow) { max-width: 680px; color: #b6c3d9; font-size: clamp(19px, 1.45vw, 25px); line-height: 1.55; }
+.command-actions { display: flex; align-items: center; gap: 24px; margin-top: 38px; }
+.command-actions .primary { padding: 16px 22px; }
+.command-actions span { color: #a7b5ce; font-size: 13px; }
+.command-actions span i { display: inline-block; width: 8px; height: 8px; margin-right: 9px; border-radius: 50%; background: #83dbff; box-shadow: 0 0 18px #83dbff; }
+.sea-stage { position: relative; height: 600px; isolation: isolate; }
+.sea-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 0 45px #4c9fff35); }
+.sea-glow { position: absolute; width: 70%; aspect-ratio: 1; left: 15%; top: 15%; border-radius: 50%; background: #436dff18; filter: blur(45px); }
+.sea-orbit { position: absolute; left: 50%; top: 50%; border: 1px solid #91cfff1a; border-radius: 50%; transform: translate(-50%, -50%) rotate(-16deg); }
+.orbit-a { width: 82%; height: 48%; }.orbit-b { width: 108%; height: 64%; }
+.pulse { position: absolute; display: flex; align-items: center; gap: 12px; z-index: 2; }
+.pulse b { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid #8cdcff; border-radius: 50%; background: #0a1124cc; color: #bdeeff; font: 700 11px ui-monospace, monospace; box-shadow: 0 0 0 8px #7bcfff0d, 0 0 30px #54aaff30; }
+.pulse span { padding: 9px 12px; border: 1px solid #a6caff1b; border-radius: 12px; background: #0a1020cc; font-size: 12px; box-shadow: 0 12px 30px #02040b66; }
+.pulse small { color: #7f91b1; font-size: 9px; }.p1 { left: 13%; top: 31%; }.p2 { right: 5%; top: 47%; }.p3 { left: 7%; bottom: 18%; }
+.stage-label { position: absolute; right: 0; bottom: 4%; display: flex; flex-direction: column; padding: 14px 18px; border-left: 2px solid #7bd4ff; background: #0d1427c9; }
+.stage-label span { color: #7fd6ff; font: 10px ui-monospace, monospace; letter-spacing: .15em; }.stage-label strong { margin-top: 5px; font-size: 16px; }
+.signal-strip { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #aec8ff1c; border-radius: 24px; background: #0c1324b8; backdrop-filter: blur(20px); box-shadow: 0 26px 80px #02040b55; }
+.signal-strip > div { min-height: 138px; display: flex; flex-direction: column; justify-content: center; padding: 24px 30px; border-right: 1px solid #aec8ff18; }.signal-strip > div:last-child { border: 0; }
+.signal-strip span { color: #7e91b1; font: 10px ui-monospace, monospace; letter-spacing: .14em; }.signal-strip strong { margin: 7px 0 4px; font-size: 36px; letter-spacing: -.04em; }.signal-strip small { color: #a8b5ca; font-size: 12px; }
+.capability-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 18px; margin-top: 20px; }
+.capability { min-height: 310px; padding: 30px; position: relative; overflow: hidden; }
+.capability > span { color: #7f96bc; font: 10px ui-monospace, monospace; letter-spacing: .14em; }.capability h2 { max-width: 620px; margin: 44px 0 18px; font-size: clamp(32px, 3vw, 54px); line-height: 1; letter-spacing: -.045em; }.capability h3 { margin: 44px 0 15px; font-size: 28px; letter-spacing: -.035em; }.capability p { color: #aebbd0; line-height: 1.55; }
+.capability.featured { background: radial-gradient(circle at 90% 0, #344fc955, transparent 42%), linear-gradient(145deg, #121d37, #0d1425); }.capability button { margin-top: 12px; padding: 0; border: 0; background: none; color: #8bd9ff; font-weight: 700; }
+.mini-flow { display: flex; align-items: center; gap: 8px; margin-top: 32px; }.mini-flow i { padding: 8px 11px; border-radius: 999px; background: #1a2742; color: #a8dfff; font-style: normal; font-size: 11px; }.mini-flow b { color: #536886; }
+.station-mark { position: absolute; right: 22px; bottom: 22px; width: 150px; height: 92px; border: 1px solid #88cfff38; border-radius: 50%; transform: rotate(-9deg); }.station-mark i { position: absolute; width: 42px; height: 12px; border: 1px solid #88cfff66; background: #6fbfff16; }.station-mark i:nth-child(1) { left: 18px; top: 22px; }.station-mark i:nth-child(2) { left: 62px; top: 22px; }.station-mark i:nth-child(3) { left: 45px; top: 42px; width: 62px; height: 24px; }.station-mark strong { position: absolute; right: 16px; bottom: -18px; color: #8194b5; font: 9px ui-monospace, monospace; }
+
+@media (max-width: 1050px) { .command-hero { grid-template-columns: 1fr; }.sea-stage { height: 500px; }.signal-strip { grid-template-columns: 1fr 1fr; }.signal-strip > div:nth-child(2) { border-right: 0; }.signal-strip > div:nth-child(-n+2) { border-bottom: 1px solid #aec8ff18; }.capability-grid { grid-template-columns: 1fr 1fr; }.capability.featured { grid-column: 1 / -1; } }
+@media (max-width: 620px) { .command { padding: 38px 16px 60px; }.command-hero { min-height: auto; }.command-copy h1 { font-size: 48px; }.command-actions { align-items: flex-start; flex-direction: column; }.sea-stage { height: 420px; margin-inline: -30px; }.pulse span { display: none; }.signal-strip { grid-template-columns: 1fr 1fr; }.signal-strip > div { min-height: 112px; padding: 18px; }.signal-strip strong { font-size: 28px; }.capability-grid { grid-template-columns: 1fr; }.capability.featured { grid-column: auto; }.capability { min-height: 270px; } }
