@@ -6,11 +6,7 @@ The core demonstrable workflow is:
 
 `PWA camera -> OpenCV evidence -> Gemini Vision classification -> human review -> GIS incident -> volunteer ticket -> before/after closure`
 
-All environmental observations in the demo environment are user-submitted or explicitly marked demonstration data. AI output is advisory and never confirms petroleum contamination without human review.
-
-## Status
-
-Active hackathon development started on 5 August 2026 after publication of the official technical assignment. This repository does not contain code, assets or history from the earlier concept prototype.
+AI output is advisory and requires operator confirmation before an incident is dispatched.
 
 ## Quick start
 
@@ -28,10 +24,4 @@ Open:
 - API: <http://localhost:8080/api>
 - Swagger: <http://localhost:8080/docs>
 - Health: <http://localhost:8080/api/health>
-
-## Safety
-
-Never commit `.env`, API keys, SSH credentials, private user photographs or production database dumps.
-
-Detailed architecture and implementation milestones are documented in [ARCHITECTURE.md](ARCHITECTURE.md) and [PLAN.md](PLAN.md).
 
